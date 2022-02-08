@@ -31,12 +31,6 @@ const routeCorrect = require("./routes/correct");
 const routeIncorrect = require("./routes/incorrect");
 const routeEndGame = require("./routes/endGame");
 
-
-const async = require("hbs/lib/async");
-const { render } = require("express/lib/response");
-const events = require("events");
-
-
 //establecer el motor de plantillas
 app.set("view engine", "hbs");
 
@@ -72,8 +66,6 @@ app.use("/perfil", secured, routePerfil);
 app.use("/perfilEdit", secured, routePerfilEdit);
 app.use("/secret", secured, routeSecret);
 app.use("/endGame", secured, routeEndGame);
-
-
 
 app.listen(PORT, (err) => {
     err
