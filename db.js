@@ -1,8 +1,6 @@
 const mysql = require("mysql");
 const util = require("util");
 
-const nodemailer = require("nodemailer");
-
 const pool  = mysql.createPool({
     connectionLimit: 10,
     host: process.env.DB_HOST,
