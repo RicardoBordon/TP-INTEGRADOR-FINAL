@@ -4,7 +4,7 @@ const router = express.Router();
 const Trivia = require('trivia-api');
 const mdlUsers = require("../models/mdlUsers");
 const cloudinery = require("cloudinary").v2;
-
+const encode = require("html-entities");
 
 router.get("/", async (req, res) => {
   
@@ -28,11 +28,11 @@ router.get("/", async (req, res) => {
     category: results[0].category,
     type: results[0].type,
     difficulty: results[0].difficulty,
-    question: results[0].question,
+    question: encode.decode(results[0].question),
     correct_answer: results[0].correct_answer,
     incorrect_answer: results[0].incorrect_answers,
   };
-  
+   
   //desestructuro el array de respuestas incorrectas
   let[x,y,z] = data.incorrect_answer;
 

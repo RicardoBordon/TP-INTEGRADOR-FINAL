@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-02-2022 a las 01:06:22
+-- Tiempo de generación: 09-02-2022 a las 19:39:55
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 8.0.13
 
@@ -35,7 +35,7 @@ CREATE TABLE `authorized` (
   `nombre` varchar(30) NOT NULL,
   `apellido` varchar(30) NOT NULL,
   `token` varchar(500) NOT NULL DEFAULT 'UNVERIFIED',
-  `score` int(4) NOT NULL,
+  `score` int(4) NOT NULL DEFAULT 0,
   `scoreNow` int(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -44,7 +44,9 @@ CREATE TABLE `authorized` (
 --
 
 INSERT INTO `authorized` (`username`, `password`, `email`, `imagen`, `nombre`, `apellido`, `token`, `score`, `scoreNow`) VALUES
-('RikyBordon', '437297941fa2ae39a8c4500c7d1e7f4f', 'rikyyy09@gmail.com', 'ngvjwtdnaidy8gs4wrio', 'Ricardo', 'Bordon', 'VERIFIED', 160, 10);
+('Micapony', '6e34746dfe6e94dd496d165ede8f0eb9', 'r.bordon@hotmail.com.ar', 'vsqnemdsrtzdabbjddfw', 'Micaela', 'Caniso', 'VERIFIED', 70, 70),
+('JuanCarlos', '8eb96ef6923848f988370a0783561dbf', 'riky09@hotmail.es', 'l3ezqbfyieorndvdtfl0', 'Juan', 'Carlos', 'VERIFIED', 80, 80),
+('RikyBordon', '437297941fa2ae39a8c4500c7d1e7f4f', 'rikyyy09@gmail.com', 'jaxezgugeywddmv3liz8', 'Ricardo', 'Bordon', 'VERIFIED', 20, 20);
 
 --
 -- Índices para tablas volcadas
@@ -54,7 +56,8 @@ INSERT INTO `authorized` (`username`, `password`, `email`, `imagen`, `nombre`, `
 -- Indices de la tabla `authorized`
 --
 ALTER TABLE `authorized`
-  ADD PRIMARY KEY (`username`);
+  ADD UNIQUE KEY `email` (`email`),
+  ADD UNIQUE KEY `username` (`username`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
