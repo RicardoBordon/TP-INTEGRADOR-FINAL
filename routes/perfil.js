@@ -11,11 +11,13 @@ router.get("/", async (req, res) => {
         email: row[0].email,
         nombre: row[0].nombre,
         apellido: row[0].apellido,
-        imagen: cloudinery.url(row[0].imagen),
+        imagen: row[0].imagen,
         score: row[0].score
       };
       
-      res.render("perfil", {usuario});
+      let imgURL = cloudinery.url(row[0].imagen);
+      console.log(imgURL);
+      res.render("perfil", {usuario, imgURL});
 });
 
 router.post("/", async (req, res) => {

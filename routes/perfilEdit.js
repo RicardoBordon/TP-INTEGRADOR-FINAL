@@ -14,11 +14,11 @@ router.get("/", async (req, res) => {
         email: row[0].email,
         nombre: row[0].nombre,
         apellido: row[0].apellido,
-        imagen: cloudinery.url(row[0].imagen)
+        imagen: row[0].imagen
     };
-    let imgsinURL = row[0].imagen;
+    let imgURL = cloudinery.url(row[0].imagen);
 
-    res.render("perfilEdit", {usuario, imgsinURL});
+    res.render("perfilEdit", {usuario, imgURL});
 });
 
 //Borrar usuario de DB y foto de cloudinary
@@ -31,16 +31,20 @@ router.get("/deleteUser", async (req,res) => {
 
 //Actualiza datos editados de usuario
 router.post("/", async (req,res) => {
-    let { username, nombre , apellido, img_id , imgsinURL } = req.body;
-
-if(req.files != undefined) {
-    await destroy(imgsinURL);
+    let { userprev, username, nombre , apellido, img_id } = req.body;   
+if (req.files != undefined) {
+    await destroy(img_id);
     let img_file = req.files.img_fl;
     img_id = (await uploader(img_file.tempFilePath)).public_id;
 }  
-    const data = {username, nombre, apellido, imagen: img_id };
-    await mdlUsers.updateUser(data, username);
+    const data = { username, nombre, apellido, imagen:img_id };
+    await mdlUsers.updateUser(data, req.session.user);
+    if (username !== userprev){
+        res.redirect("/login/logout");
+    }
+    else{
     res.redirect("perfil");
+    }
 })
 
 module.exports = router;

@@ -43,10 +43,10 @@ const {username, email, nombre, apellido, password } = req.body;
 
 //leo el archivo de imagen
 
-let imgFile = req.files.imagen;
+  let imgFile = req.files.imagen;
 
-//obtengo id de referencia de cloudinary(servidor de imagenes)
-const img_id = (await uploader(imgFile.tempFilePath)).public_id;
+  //obtengo id de referencia de cloudinary(servidor de imagenes)
+  const img_id = (await uploader(imgFile.tempFilePath)).public_id;
 
   //datos guardados en el objeto data
   const data = {
@@ -58,8 +58,10 @@ const img_id = (await uploader(imgFile.tempFilePath)).public_id;
   apellido,
   }
   let finderr = await mdlUsers.addUser(data);
+
   
   if( finderr === true ){
+    await destroy(img_id);
     const msg = "user exist or email exist";
     res.render("register", {msg});
   }
