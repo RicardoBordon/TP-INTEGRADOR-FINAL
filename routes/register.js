@@ -15,6 +15,14 @@ router.get("/", async (req, res) => {
     res.render("register");
 });
 
+router.get("/sendMail", (req, res) => {
+  res.render("sendMail");
+});
+
+router.get("/emailOk", (req, res) => {
+  res.render("emailOk");
+});
+
 router.post("/",[
   body('re-password').custom((value, { req }) => {
     if (value !== req.body.password) {
@@ -30,7 +38,6 @@ if(!errors.isEmpty()){
   res.render("register", {msg});
 }  
 else{
-
 //obtengo datos del formulario 
 const {username, email, nombre, apellido, password } = req.body;
 
@@ -50,8 +57,13 @@ const img_id = (await uploader(imgFile.tempFilePath)).public_id;
   nombre,
   apellido,
   }
-  console.log(data);
-   mdlUsers.addUser(data);
+  let finderr = await mdlUsers.addUser(data);
+  
+  if( finderr === true ){
+    const msg = "user exist or email exist";
+    res.render("register", {msg});
+  }
+  else{
    
   //creo conexion con servidor de email smtp
   const transport = nodemailer.createTransport({
@@ -67,18 +79,19 @@ const img_id = (await uploader(imgFile.tempFilePath)).public_id;
   //genero el token a partir de un cod aleatorio y mail  
   let code = uuidv4();
   const token = mdlUsers.getToken({email, code });
-  const link = `<a href=http://localhost:3000/register/confirm/${ token }>Confirmar</a>`;
+  const link = `<a href=http://localhost:3000/register/confirm/${ token }>CONFIRMAR EMAIL</a>`;
 
   const emailMsg = {
     to: email,
     from: process.env.ML_USER,
-    subject: "Validation of mail",
+    subject: "TRIVIA-API-TP-FINAL",
     html: link
   }
   //envio mail con token
   transport.sendMail(emailMsg);
-  res.redirect("/");
-}
+  res.redirect("/register/sendMail");
+  }
+ }
 });
   //Si se presiona en el boton del correo deberia llegar a esta ruta 
   //la cual es unica, se cambiara el campo token segun email a VERIFIED
@@ -87,7 +100,7 @@ router.get("/confirm/:token", async (req, res) => {
   const data = mdlUsers.getTokenData(token);
   const { email, code } = data.data;
   mdlUsers.verified(data.data.email);
-  res.redirect("/");
+  res.redirect("/register/emailOk");
 });
 
 

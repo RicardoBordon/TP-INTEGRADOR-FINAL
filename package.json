@@ -20,8 +20,8 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "start": "node app",
-    "start2": "nodemon app",
+    "start2": "node app",
+    "start": "nodemon app",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Bordon Ricardo",

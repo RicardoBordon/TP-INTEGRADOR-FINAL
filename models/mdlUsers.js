@@ -31,9 +31,14 @@ const addUser = async (data) => {
     const query = "INSERT INTO authorized SET ?";
     const row = await pool.query(query, [data]);
     return row;
-} catch (error) {
-    console.log(error);
-  }
+    }  
+    catch (err) {
+    if (err.code === 'ER_DUP_ENTRY') {
+        return true;
+    } else {
+            console.log(err);
+     }
+}
 };
 
 //Cambia el estado del campo "token" en el registro a: VERIFIED

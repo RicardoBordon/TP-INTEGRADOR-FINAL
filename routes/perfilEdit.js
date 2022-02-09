@@ -31,16 +31,14 @@ router.get("/deleteUser", async (req,res) => {
 
 //Actualiza datos editados de usuario
 router.post("/", async (req,res) => {
-    let { username, nombre , apellido, email, img_id , imgsinURL } = req.body;
-    console.log(imgsinURL);
+    let { username, nombre , apellido, img_id , imgsinURL } = req.body;
 
 if(req.files != undefined) {
     await destroy(imgsinURL);
     let img_file = req.files.img_fl;
     img_id = (await uploader(img_file.tempFilePath)).public_id;
-    console.log(img_id);
 }  
-    const data = {username, nombre, apellido, email, imagen: img_id };
+    const data = {username, nombre, apellido, imagen: img_id };
     await mdlUsers.updateUser(data, username);
     res.redirect("perfil");
 })

@@ -27,7 +27,8 @@ router.post("/", async (req, res) => {
         res.render("login", {message});
     }
     else if(data.token !== "VERIFIED"){
-        const message = "Unverified email account"  
+        const message = "Unverified email account"
+        res.render("login", {message});  
     }
     else if((data.username == user) && (data.password == md5(password)) && (data.token == "VERIFIED")){
         req.session.user = user;
